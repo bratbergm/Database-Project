@@ -7,3 +7,7 @@ I plan on creating unit tests before starting on the code itself. This will allo
 developing, and it will help me better understand what I want the code to do.
 
 I will implement tests for the functionalities that are described in the project case.
+
+
+
+To do: Definitions of tests

@@ -1,5 +1,5 @@
 <?php
-
+require_once "dbCredentials.php";
 
 /**
  * Class for orders. Generates JSON documents from the dbproject database 
@@ -16,7 +16,7 @@ class OrderModel {
             array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     }
 
-
+// Retreive basic information on all orders
     public function getOrders(): array {
         $res = array();
 
@@ -41,15 +41,19 @@ class OrderModel {
         return json_encode($this->getOrders());
     }
 
-
+// Retreive all information on one given order
 
 // Orders
-    public function getOrdersWithItems(): array {
+    public function getOrderWithItems($number): array {
         $res = array();
 
-    $query = "SELECT number AS orderNumber, totalPrice, state FROM `order`";
+        $stmt = $this->db->prepare("SELECT number AS orderNumber, totalPrice, state FROM `order` WHERE number = :number");
+        $stmt->bindValue(':number', $number);
+        $stmt->execute();
 
-        $stmt = $this->db->query($query);
+
+  
+
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $pos = count($res);
@@ -60,15 +64,18 @@ class OrderModel {
             $res[$pos]['state'] = $row['state'];
 
             $res[$pos]['Items'] = $this->getItemsForOrder($row['orderNumber']);
+
         }
         return $res;
+
     }
+  
 // Items
     public function getItemsForOrder($orderNumber) {
         $res = array();
 
-        $query = "SELECT itemNr, ski_pnr, order_number
-        FROM orderitem
+        $query = "SELECT order_number, ski_pnr
+        FROM orderitems
         WHERE order_number = :order_number";
 
         $stmt = $this->db->prepare($query);
@@ -86,11 +93,15 @@ class OrderModel {
     }
 
 
+// SKI type også hver ski ?
+
+
+
 // Skis
     public function getSkisForItems($itemNr) {
         $res = array();
 
-        $query = "SELECT pnr, type, model, typeOfSkiing, temperature, size, weightClass, gripSystem, descripton, msrp, productionDate 
+        $query = "SELECT pnr, type, model, temperature, size, weightClass, gripSystem, productionDate 
         FROM ski
         WHERE pnr = :pnr";
 
@@ -106,11 +117,11 @@ class OrderModel {
         return $res;
     }
 
-
-    public function createOrdersItemsDoc(): string {
-        return json_encode($this->getOrdersWithItems());
+/*
+    public function createOrdersItemsDoc($number): string {
+        return json_encode($this->getOrderWithItems());
     }
-
+*/
 
 
 }
