@@ -2,10 +2,8 @@
 require_once "dbCredentials.php";
 
 /**
- * Class for orders. Generates JSON documents from the dbproject database 
- * 
+ * Class Orders for accessing order data in the dbproject database 
  */
-
 class OrderModel {
 
     protected $db;
@@ -16,7 +14,11 @@ class OrderModel {
             array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     }
 
-// Retreive basic information on all orders
+
+/**
+ * Returns basic information on all orders.
+ * Might remove this function
+ */
     public function getOrders(): array {
         $res = array();
 
@@ -41,18 +43,49 @@ class OrderModel {
         return json_encode($this->getOrders());
     }
 
-// Retreive all information on one given order
+
+
+
+/**
+ * Returns orders based on state.
+ * With all information on items in the order
+ */
+    public function getOrdersState(string $state) {
+        $res = array();
+        $stmt = $this->db->prepare("SELECT number AS orderNumber, totalPrice, state FROM `order` WHERE state = :state");
+        $stmt->bindValue('state', $state);
+        $stmt->execute();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $pos = count($res);
+            $res[] = array();
+
+            $res[$pos]['orderNumber'] = $row['orderNumber'];
+            $res[$pos]['totalPrice'] = $row['totalPrice'];
+            $res[$pos]['state'] = $row['state'];
+
+            $res[$pos]['Items'] = $this->getItemsForOrder($row['orderNumber']);
+
+        }
+        return $res;
+      
+    }
+
+
+
+
+/**
+ * Returns an order based on order number
+ * With all information on items in the order
+ */
 
 // Orders
-    public function getOrderWithItems($number): array {
+    public function getOrderWithItems(int $number): array {
         $res = array();
 
         $stmt = $this->db->prepare("SELECT number AS orderNumber, totalPrice, state FROM `order` WHERE number = :number");
         $stmt->bindValue(':number', $number);
         $stmt->execute();
-
-
-  
 
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -71,7 +104,7 @@ class OrderModel {
     }
   
 // Items
-    public function getItemsForOrder($orderNumber) {
+    public function getItemsForOrder(int $orderNumber) {
         $res = array();
 
         $query = "SELECT order_number, ski_pnr
@@ -84,7 +117,7 @@ class OrderModel {
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $pos = count($res);
-            $res[] = $row;
+        //    $res[$pos]['ski_pnr'] = $row['ski_pnr'];
 
             $res[$pos]['ski_pnr'] = $this->getSkisForItems($row['ski_pnr']);
         }
@@ -93,16 +126,13 @@ class OrderModel {
     }
 
 
-// SKI type også hver ski ?
-
-
-
 // Skis
-    public function getSkisForItems($itemNr) {
+    public function getSkisForItems(int $itemNr) {
         $res = array();
 
-        $query = "SELECT pnr, type, model, temperature, size, weightClass, gripSystem, productionDate 
+        $query = "SELECT pnr, ski.type, ski.model, ski.temperature, ski.size, ski.weightClass, ski.gripSystem, ski.productionDate, skitype.type, skitype.typeOfSkiing, skitype.descripton, skitype.historical, skitype.msrp
         FROM ski
+        INNER JOIN skitype ON skitype.type = ski.type
         WHERE pnr = :pnr";
 
         $stmt = $this->db->prepare($query);
@@ -117,11 +147,17 @@ class OrderModel {
         return $res;
     }
 
+
+
+
 /*
     public function createOrdersItemsDoc($number): string {
         return json_encode($this->getOrderWithItems());
     }
 */
+
+
+
 
 
 }

@@ -13,7 +13,8 @@ class APIController {
                 return true;
             } elseif (count($uri) == 2) {
                 // The "orders number" must be a digit
-                return ctype_digit($uri[1]);
+                //return ctype_digit($uri[1]);
+                return true;
             }
         }
         return false;
@@ -23,7 +24,7 @@ class APIController {
         switch ($uri[0]) {
             case RESTConstants::ENDPOINT_ORDERS:
                 // GET requests for orders may be for all orders (/orders) or a specific order (/orders/{number})
-                return count($uri) == 2 || count($uri) ==1 && $requestMethod == RESTConstants::METHOD_GET;
+                return count($uri) == 2 || count($uri) == 1 && $requestMethod == RESTConstants::METHOD_GET;
         }
         return false;
     }
@@ -51,11 +52,17 @@ class APIController {
 
     protected function handleOrderRequest(array $uri, string $requestMethod, array $queries, array $payload): array {
         if (count($uri) == 1) {
+            // Only /orders
             $order = new OrderModel();
             return $order->getOrders();
-        } elseif (count($uri) == 2) {
+            // /orders/orderNumber
+        } elseif (count($uri) == 2 && ctype_digit($uri[1])) {
             $order = new OrderModel();
             return $order->getOrderWithItems(intval($uri[1]));
+            // /orders/state
+        } elseif (count($uri) == 2 && ctype_alpha($uri[1])) {
+            $order = new OrderModel();
+            return $order->getOrdersState($uri[1]);
         }
     }
 

@@ -6,15 +6,14 @@ CREATE TABLE `skiType` (
     `typeOfSkiing`    varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
     `descripton`      varchar(500) COLLATE utf8mb4_danish_ci NOT NULL,
     `historical`      varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
-    `msrp`            int(11),
-    `ski_pnr`         int(11)        
+    `msrp`            int(11)    
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
 
 INSERT INTO `skiType`
-    (`type`,`model`,`temperature`,`gripSystem`,`typeOfSkiing`,`descripton`,`historical`,`msrp`, `ski_pnr`)
+    (`type`,`model`,`temperature`,`gripSystem`,`typeOfSkiing`,`descripton`,`historical`,`msrp`)
     VALUES
-    ('skate','Active','cold','IntelliGrip','free-style','They are blue','no','999', 1),
-    ('classic','Endurance','cold','IntelliGrip','double pole','They are red','no','1200', 2);
+    ('skate','Active','cold','IntelliGrip','free-style','They are blue','no','999'),
+    ('classic','Endurance','cold','IntelliGrip','double pole','They are red','no','1200');
 
 
 CREATE TABLE `ski` (
