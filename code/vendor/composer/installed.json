@@ -63,17 +63,17 @@
     },
     {
         "name": "codeception/codeception",
-        "version": "4.1.18",
-        "version_normalized": "4.1.18.0",
+        "version": "4.1.20",
+        "version_normalized": "4.1.20.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Codeception/Codeception.git",
-            "reference": "f47547bac347dfb5ea5351ff91148cbcc08e6818"
+            "reference": "d8b16e13e1781dbc3a7ae8292117d520c89a9c5a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Codeception/Codeception/zipball/f47547bac347dfb5ea5351ff91148cbcc08e6818",
-            "reference": "f47547bac347dfb5ea5351ff91148cbcc08e6818",
+            "url": "https://api.github.com/repos/Codeception/Codeception/zipball/d8b16e13e1781dbc3a7ae8292117d520c89a9c5a",
+            "reference": "d8b16e13e1781dbc3a7ae8292117d520c89a9c5a",
             "shasum": ""
         },
         "require": {
@@ -112,7 +112,7 @@
             "stecman/symfony-console-completion": "For BASH autocompletion",
             "symfony/phpunit-bridge": "For phpunit-bridge support"
         },
-        "time": "2021-02-23T17:11:42+00:00",
+        "time": "2021-04-02T16:41:51+00:00",
         "bin": [
             "codecept"
         ],

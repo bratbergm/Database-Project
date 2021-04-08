@@ -23,4 +23,6 @@ class RESTConstants
     const HTTP_NOT_IMPLEMENTED = 501;
 
     const ENDPOINT_ORDERS = 'orders';
+    const ENDPOINT_SKIS = 'skis';
+    const ENDPOINT_SKITYPES = 'skitypes';
 }

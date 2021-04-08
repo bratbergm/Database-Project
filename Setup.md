@@ -15,6 +15,7 @@ composer require --dev "codeception/codeception"
 composer require --dev "codeception/module-asserts"
 composer require --dev "codeception/module-db"
 composer require --dev "codeception/module-rest"
+composer require --dev "codeception/module-phpbrowser"
 vendor/bin/codecept bootstrap
 vendor/bin/codecept generate:test unit controller
 vendor/bin/codecept generate:suite api
