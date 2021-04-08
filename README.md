@@ -60,9 +60,11 @@
    RewriteRule dbproject/(.*)$ dbproject/api.php?request=$1 [QSA,NC,L]
    ```
 
-3. Install composer from https://getcomposer.org/download/ (if not already installed)
+3. Folders 'controller' and 'db', and the files 'api.php' and 'RESTConstraints.php' must be in xampp/htdocs/dbproject
 
-4. Install libraries in the code/ directory (This is for Linux users)
+4. Install composer from https://getcomposer.org/download/ (if not already installed)
+
+5. Install libraries in the code/ directory (This is for Linux)
 
    ```
    composer require --dev "codeception/codeception"
@@ -72,11 +74,9 @@
    composer require --dev "codeception/module-phpbrowser"
    ```
 
-   
+6. Create a Database in phpMyAdmin and name it 'dbproject' 
 
-5. Create a Database in phpMyAdmin and name it 'dbproject' 
-
-6. Import the Database setup from: code/db/dbinit.sql
+7. Import the Database setup from: code/db/dbinit.sql
 
 
 
@@ -87,3 +87,5 @@ Morten Bratberg BDIGSEC19 - Gjøvik
 morterb@stud.ntnu.no
 
 Discord: korg#8519
+
+I am available for questions if needed :)
