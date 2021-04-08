@@ -29,3 +29,13 @@
 ##### Order Endpoint
 
 - Tests if GET order number 999 is a valid endpoint
+
+### API Test Cases
+
+#### Successful Operations
+
+- Get orders with state = new
+- Response code OK/200
+- Response code is Json
+- Json array contains number => 1, state => new
+- Json array contains number => 2, state => open

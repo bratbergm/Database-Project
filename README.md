@@ -6,7 +6,16 @@
 
 *What is implemented:*
 
-(Endpoint design tabell)
+| Endpoint | URI (http://server/API)  | Methods | Description                                          |
+| -------- | ------------------------ | ------- | ---------------------------------------------------- |
+| Orders   | /orders                  | GET     | Get basic information about all  orders              |
+| Orders   | /orders/{number}         | GET     | Get info about one specific order                    |
+| Orders   | /orders/{state}          | GET     | Get info about orders based on  state                |
+| Orders   | /orders/{number}/{state} | PUT     | Change a specific orders state                       |
+| Skis     | /skis/date/’*date*’      | GET     | Get skis that are produced on or  after a given date |
+| Skitypes | /skitypes                | GET     | GET all skitypes                                     |
+| Skitypes | /skitypes/{model}        | GET     | GET skitype with model filter                        |
+| …        |                          |         |                                                      |
 
 *What is not working*
 
@@ -20,6 +29,7 @@
 - A way to separate the different users with tokens
 - The different the types of customers. Now it is only 'Customer'.
 - Get total price for orders, based on price of the skis. Move msrp to ski relation?
+- Error handling
 - (The other requirements in the project case)
 
 
@@ -38,7 +48,7 @@
 
 
 
-#### Setup
+##### Setup
 
 1. Clone the repo
 
@@ -68,3 +78,12 @@
 
 6. Import the Database setup from: code/db/dbinit.sql
 
+
+
+#### Who am I
+
+Morten Bratberg BDIGSEC19 - Gjøvik
+
+morterb@stud.ntnu.no
+
+Discord: korg#8519
