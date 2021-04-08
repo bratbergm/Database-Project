@@ -2,7 +2,7 @@
 
 
 
-**Info for peer review**
+### **Info for peer review**
 
 *What is implemented:*
 
@@ -24,7 +24,47 @@
 
 
 
-*misc*
+*misc.*
 
 - Production plans are for the months of the year (from 2021-01 to 2021-04 in the test DB)
+
+- Remember ' ' around the date when using Postman. Example:
+
+  ```
+  http://127.0.0.1/dbproject/skis/date/'2021-03-01'
+  ```
+
+  
+
+
+
+#### Setup
+
+1. Clone the repo
+
+2. .htaccess file:
+
+   Add the line for my project in your xampp/htdocs/.htaccess
+
+   ```
+   RewriteRule dbproject/(.*)$ dbproject/api.php?request=$1 [QSA,NC,L]
+   ```
+
+3. Install composer from https://getcomposer.org/download/ (if not already installed)
+
+4. Install libraries in the code/ directory (This is for Linux users)
+
+   ```
+   composer require --dev "codeception/codeception"
+   composer require --dev "codeception/module-asserts"
+   composer require --dev "codeception/module-db"
+   composer require --dev "codeception/module-rest"
+   composer require --dev "codeception/module-phpbrowser"
+   ```
+
+   
+
+5. Create a Database in phpMyAdmin and name it 'dbproject' 
+
+6. Import the Database setup from: code/db/dbinit.sql
 
