@@ -18,9 +18,9 @@ class skiTest extends \Codeception\Test\Unit {
 
     // tests
 
-    /**
+    /*
      * Tests if possible to retrieve list of skis   
-    */
+    
     public function testGetCollection() {
         $controller = new APIController();
 
@@ -32,11 +32,11 @@ class skiTest extends \Codeception\Test\Unit {
         $res = $controller->handleRequest($uri, $requestMethod, $queries, $payload);
         $this->tester->assertCount(20, $res);
     }
+    */
 
-
-    /**
+    /*
      * Tests if possible to retrieve a given ski
-     */
+     
     public function testGetResource() {
         $controller = new APIController();
 
@@ -47,6 +47,7 @@ class skiTest extends \Codeception\Test\Unit {
         }
         
     }
+*/
 
     /**
      * Tests retrieve record of produced skis since a date

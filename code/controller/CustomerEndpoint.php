@@ -9,10 +9,15 @@ class CustomerEndpoint {
 
     /**
      * Function for dispatching requests based on the $uri
+     * @param string $token only used in company endpoint 
      * @param array $uri The uri from the user
      * @param string $requestMethod 
      * @param array $queries 
      * @param array $payload Data from user that wil be inserted into database
+     * @see handleOrderRequest
+     * @see handlePlanRequest
+     * @see handleSkiRequest
+     * @see handleSkiTypeRequest
      * 
      */
     public function handleRequest(string $token, array $uri, string $requestMethod, array $queries, array $payload): array {
@@ -35,6 +40,16 @@ class CustomerEndpoint {
     }
 
     
+    /**
+     * Function for handling order requests
+     * @param array $uri The uri from the user
+     * @param string $requestMethod 
+     * @param array $queries 
+     * @param array $payload Data from user that wil be inserted into database
+     * @see OrderModel::getOrders Returns basic information on all orders
+     * @see OrderModel::getOrderWithItems Returns an order based on order number with all information on items in the order
+     * @see OrderModel::createResource Adding a new order
+     */
     public function handleOrderRequest(array $uri, string $requestMethod, array $queries, array $payload): array {
         switch ($requestMethod) {
             case RESTConstants::METHOD_GET:
@@ -52,15 +67,24 @@ class CustomerEndpoint {
                 $order = new OrderModel();
                 return $order->createResource($payload);
                 break;
+            case RESTConstants::METHOD_DELETE:
+                $order = new OrderModel();
+                return $order->deleteResource($uri[1]);
+                break;
         }
     }
 
+    /**
+     * Function for handling plan requests. 
+     * TO DO: add switch on request method for future development.
+     * @param array $uri The uri from the user
+     * @see ProductionPlanModel::getRecource Retreives a four week productionplan summary from a given period
+     * 
+     */
     public function handlePlanRequest(array $uri, string $requestMethod, array $queries, array $payload): array {
-        // legg til switch på req method, for fremtidig utvikling
+ 
         $plan = new ProductionPlanModel();
         return $plan->getRecource($uri[1]);
-
-       
     }
 
 

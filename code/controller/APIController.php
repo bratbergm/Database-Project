@@ -13,7 +13,10 @@ class APIController {
 
 
 
-
+    /**
+     * Checks if the endpoint in the uri is valid
+     * @param array $uri The requested uri
+     */
     public function isValidEndpoint(array $uri): bool {
         if ($uri[0] == RESTConstants::ENDPOINT_ORDERS) {
             if (count($uri) == 1) {
@@ -48,6 +51,11 @@ class APIController {
         return false;
     }
 
+    /**
+     * Checks is the requested method is allowed for the requested endpoint
+     * @param array $uri The requested URI
+     * @param string $requestMethod The requested method
+     */
     public function isValidMethod(array $uri, string $requestMethod): bool {
         switch ($uri[0]) {
             case RESTConstants::ENDPOINT_ORDERS:
@@ -68,6 +76,13 @@ class APIController {
         return false;
     }
 
+    /**
+     * TO DO
+     *      Checks if the payload is correctly formatted
+     *      @param array $uri The requested URI
+     *      @param string $requestMethod The requested method
+     *      @param array $payload The Payload from the user
+     */
     public function isValidPayload(array $uri, string $requestMethod, array $payload): bool {
         if ($requestMethod == RESTConstants::METHOD_GET)  {
             return true;
@@ -76,6 +91,8 @@ class APIController {
                 return true;
             }
         } elseif ($requestMethod == RESTConstants::METHOD_POST) {
+            return true;
+        } elseif ($requestMethod == RESTConstants::METHOD_DELETE) {
             return true;
         }
         return false;
@@ -92,7 +109,11 @@ class APIController {
 */
 
     /**
-     * Checks the token and redirects to the respective endpoint
+     * Function for handling client requests to the API. Checks the token and redirects
+     * the request to the respective endpoint.
+     * @see PublicEndpoint controller for the public endpoint
+     * @see CustomerEndpoint controller for the customer endpoint
+     * @see CompanyEndpoint controller for the company endpoint. For Storekeeper, CustomerRep and productionPlanner 
      */
     public function handleRequest(string $token, array $uri, string $requestMethod, array $queries, array $payload): array {
        // Validate that the token is one of the stored tokens in the database

@@ -1,8 +1,1 @@
-tests/api/dbprojectCest.php:testPutOrderState
-tests/unit/orderTest.php:testExistingOrderResource
-tests/unit/orderTest.php:testNonExistingOrderResource
-tests/unit/orderTest.php:testOrderStateNew
-tests/unit/skiTest.php:testGetCollection
-tests/unit/skiTest.php:testGetResource
-tests/unit/skiTypeTest.php:testGetCollection
-tests/unit/skiTypeTest.php:testGetResource
+tests/unit/orderTest.php:testOrderDelete

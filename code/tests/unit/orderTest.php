@@ -39,7 +39,7 @@ class orderTest extends \Codeception\Test\Unit {
      */
     public function testExistingOrderResource() {
         $controller = new APIController();
-        $res = $controller->handleRequest(['orders', '1'], 'GET', [], []);
+        $res = $controller->handleRequest(RESTConstants::TOKEN_CUSTOMER, ['orders', '1'], 'GET', [], []);
         self::assertNotEmpty($res);
     }
 
@@ -48,7 +48,7 @@ class orderTest extends \Codeception\Test\Unit {
      */
     public function testNonExistingOrderResource() {
         $controller = new APIController();
-        $res = $controller->handleRequest(['orders', '999'], 'GET', [], []);
+        $res = $controller->handleRequest(RESTConstants::TOKEN_CUSTOMER, ['orders', '999'], 'GET', [], []);
         self::assertEmpty($res);
     }
 
@@ -57,21 +57,23 @@ class orderTest extends \Codeception\Test\Unit {
      */
     public function testOrderStateNew() {
         $controller = new APIController();
-        $res = $controller->handleRequest(['orders', 'new'], 'GET', [], []);
+        $res = $controller->handleRequest(RESTConstants::TOKEN_CUSTOMERREP, ['orders', 'new'], 'GET', [], []);
         self::assertNotEmpty($res);
         self::assertCount(2, $res);
     }
 
 
-   /**
-    * Tests if possible to update state of an order. Currently working on this.
-    * TO DO: add token check
-    */
-    public function testPutOrderState() {
-    
-
+   
+    /**
+     * Tests if possible to delete an order
+     */
+    public function testOrderDelete() {
+        $controller = new APIController();
+        $controller->handleRequest(RESTConstants::TOKEN_CUSTOMER, ['orders', '1'], 'DELETE', [], []);
+        //Check if deleted
+        $res = $controller->handleRequest(RESTConstants::TOKEN_CUSTOMER, ['orders', '1'], 'GET', [], []);
+        self::assertEmpty($res);
     }
-
 
 
 

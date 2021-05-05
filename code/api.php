@@ -43,7 +43,7 @@ if (!$controller->isValidPayload($uri, $requestMethod, $payload)) {
 }
 
 try {
-   // $controller->authorise($token);
+   // Token as parameter
     $res = $controller->handleRequest($token, $uri, $requestMethod, $queries, $payload);
     if ($requestMethod == RESTConstants::METHOD_GET && count($res) == 0) {
         http_response_code(RESTConstants::HTTP_NOT_FOUND);

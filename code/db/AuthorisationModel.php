@@ -15,7 +15,7 @@ class AuthorisationModel {
 
 
     /**
-     * Check if endpoint and token matches what is stored in the database
+     * Check if the token matches one of the stored one in the database
      * @param string $token
      * @return bool token is in database or is not in database
      */

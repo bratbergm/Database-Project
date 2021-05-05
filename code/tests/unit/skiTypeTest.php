@@ -24,12 +24,13 @@ class skiTypeTest extends \Codeception\Test\Unit {
     public function testGetCollection() {
         $controller = new PublicEndpoint();
 
+        $token = RESTConstants::TOKEN_PUBLIC;
         $uri = ['skitypes'];
         $requestMethod = RESTConstants::METHOD_GET;
         $queries = array();
         $payload = array();
 
-        $res = $controller->handleRequest($uri, $requestMethod, $queries, $payload);
+        $res = $controller->handleRequest($token, $uri, $requestMethod, $queries, $payload);
         $this->tester->assertCount(5, $res);
     }
 
@@ -39,29 +40,12 @@ class skiTypeTest extends \Codeception\Test\Unit {
     public function testGetResource() {
         $controller = new PublicEndpoint();
 
-        $res = $controller->handleRequest(['skitypes', 'Endurance'], 'GET', [], []);
+        $res = $controller->handleRequest(RESTConstants::TOKEN_PUBLIC, ['skitypes', 'Endurance'], 'GET', [], []);
         self::assertNotEmpty($res);
         if (isset($res['model'])) {
             self::assertEquals('Endurance', $res['model']);
         }
     }
-
-    /*
-     * Tests if possible to retrieve a given ski type
-     
-    public function testGetResource() {
-        $controller = new APIController();
-
-        $uri = ['skitypes'];
-        $requestMethod = RESTConstants::METHOD_GET;
-        $queries = array();
-        $payload = array();
-
-        $res = $controller->handleRequest($uri, $requestMethod, $queries, $payload);
-      //  $resource = $res[0]
-        $this->tester->assertContains(array('type' => 'skate'), $res[0]);
-    }
-    */
 
 
 

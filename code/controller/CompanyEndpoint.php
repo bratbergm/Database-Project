@@ -7,7 +7,14 @@ require_once 'db/skisModel.php';
 class CompanyEndpoint {
 
     /**
-     * Function for dispatching based on type of employee
+     * Function for dispatching to the different types of employees based on token
+     * @param string $token from the user
+     * @param array $uri
+     * @param string $requestMethod
+     * @param array $queries
+     * @param array $payload
+     * @see handleStoreKeeperRequest
+     * @see handleCustomerRepRequest
      */
     public function handleRequest (string $token, array $uri, string $requestMethod, array $queries, array $payload): array {
         switch ($token) {
@@ -21,7 +28,14 @@ class CompanyEndpoint {
       
     }
 
-
+    /**
+     * Function for dispatching a Store keeper's requests based on the $uri. Only Skis is implemented now.
+     * @param array $uri The URI from the user
+     * @param string $requestMethod 
+     * @param array $queries 
+     * @param array $payload Data from user that wil be inserted into database
+     * @see storeKeeperEndpoint
+     */
     public function handleStoreKeeperRequest (array $uri, string $requestMethod, array $queries, array $payload): array {
         $endpointUri = $uri[0];
         switch ($endpointUri) {
@@ -33,7 +47,14 @@ class CompanyEndpoint {
     }
         
 
-        
+    /**
+     * Controller for the Store keeper endpoint.
+     * @param array $uri The URI from the user
+     * @param string $requestMethod 
+     * @param array $queries 
+     * @param array $payload Data from user that wil be inserted into database
+     * @see SkiModel::getRecord 
+     */
     public function storeKeeperEndpoint (array $uri, string $requestMethod, array $queries, array $payload): array {   
         switch ($requestMethod) {
             case RESTConstants::METHOD_GET:
@@ -48,7 +69,13 @@ class CompanyEndpoint {
     return array();
     }
 
-
+    /**
+     * Function for dispatching a Customer Rep's requests based on the $uri. Only Orders is implemented now.
+     * @param array $uri The URI from the user
+     * @param string $requestMethod 
+     * @param array $queries 
+     * @param array $payload Data from user that wil be inserted into database
+     */
     public function handleCustomerRepRequest (array $uri, string $requestMethod, array $queries, array $payload): array {
         $endpointUri = $uri[0];
         switch ($endpointUri) {
@@ -61,6 +88,17 @@ class CompanyEndpoint {
     }
 
 
+    /**
+     * Controller for the Customer Rep endpoint.
+     * @param array $uri The URI from the user
+     * @param string $requestMethod 
+     * @param array $queries 
+     * @param array $payload Data from user that wil be inserted into database
+     * @see OrderModel::getOrders Retreives basic info on all orders
+     * @see OrderModel::getOrderWithItems Returns an order based on order number with all information on items in the order
+     * @see OrderModel::getOrdersState Returns orders based on state with all information on items in the order
+     * @see OrderModel::updateOrderState Updates an orders state
+     */
     public function customerRepEndpoint (array $uri, string $requestMethod, array $queries, array $payload) {
         switch ($requestMethod) {
             case RESTConstants::METHOD_GET:

@@ -20,6 +20,8 @@ class OrderModel {
 
 /**
  * Returns basic information on all orders. (getCollection)
+ * @return array Returns an array of associative arrays with the requested data.
+ *               If the data is not found, it returns an empty array.
  */
     public function getOrders(): array {
         $res = array();
@@ -48,7 +50,11 @@ class OrderModel {
 
 /**
  * Returns orders based on state.
- * With all information on items in the order
+ * With all information on items in the order.
+ * @param string $state The state that is requested
+ * @see getItemsForOrder Retreives the items for each order
+ * @return array Returns an array of associative arrays with the requested data.
+ *               If the data is not found, it returns an empty array.
  */
     public function getOrdersState(string $state) {
         $res = array();
@@ -76,7 +82,11 @@ class OrderModel {
 
 /**
  * Returns an order based on order number
- * With all information on items in the order
+ * With all information on items in the order.
+ * @param int $number The requested order number
+ * @see getItemsForOrder Retreives the items for each order
+ * @return array Returns an array of associative arrays with the requested data.
+ *               If the data is not found, it returns an empty array.
  */
 public function getOrderWithItems(int $number): array {
     $res = array();
@@ -103,29 +113,13 @@ public function getOrderWithItems(int $number): array {
 }
 
 
-// Orders
-/*
-    public function getOrderWithItems(int $number): array {
-        $res = array();
-
-        $stmt = $this->db->prepare("SELECT number AS orderNumber, totalPrice, state FROM `order` WHERE number = :number");
-        $stmt->bindValue(':number', $number);
-        $stmt->execute();
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $pos = count($res);
-            $res[] = array();
-
-            $res[$pos]['orderNumber'] = $row['orderNumber'];
-            $res[$pos]['totalPrice'] = $row['totalPrice'];
-            $res[$pos]['state'] = $row['state'];
-
-            $res[$pos]['Items'] = $this->getItemsForOrder($row['orderNumber']);
-        }
-        return $res;
-    }
-*/
-// Items
+    /**
+     * Returns the items in the orders retreived in getOrdersState and getOrderWithItems
+     * @param int $orderNumber The ordernumber in which to retrieve items for
+     * @see getSkisForItems
+     * @return array Returns an array of associative arrays with the requested data.
+     *               If the data is not found, it returns an empty array.
+     */
     public function getItemsForOrder(int $orderNumber) {
         $res = array();
 
@@ -150,7 +144,12 @@ public function getOrderWithItems(int $number): array {
     }
 
 
-// Skitypes and skis BRUK skisModel->getRecource ?
+    /**
+     * Returns the skis with all info 
+     * @param int $intemNr The ski.productionNumber for the order
+     * @return array Returns an array of associative arrays with the requested data.
+     *               If the data is not found, it returns an empty array.
+     */
     public function getSkisForItems(int $itemNr) {
         $res = array();
 
@@ -166,6 +165,8 @@ public function getOrderWithItems(int $number): array {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $res[] = $row;
         }
+        // Skitypes and skis BRUK skisModel->getRecource ?
+
 
 
 /*
@@ -194,15 +195,16 @@ public function getOrderWithItems(int $number): array {
     }
 
 
-/**
- * Changing the state of an order from new to open after reviewing it
- * 1. retreive an order based on order.number
- * 2. update that order's state to open
- * Bind values that comes from the user
- * Updates state to value in uri[2], for the order with order number value in uri[1]
- * TO DO:
- *  - Check if input from user is new, open or skis avalable 
- */
+    /**
+     * Changing the state of an order from new to open after reviewing it
+     * Updates state to value in uri[2], for the order with order number value in uri[1]
+     * TO DO:
+     *  - Check if input from user is new, open or skis avalable 
+     * @param int $number The order number that is being updated
+     * @param string $state The state the order is being updated to
+     * @param bool $inTransaction
+     * 
+     */
     public function updateOrderState(int $number, string $state, bool $inTransaction = false) {
 
         if (!$inTransaction) {
@@ -238,9 +240,11 @@ public function getOrderWithItems(int $number): array {
 
 
 
-/**
- * Add a new order
- */
+    /**
+     * Add a new order
+     * @param array $resource The order data from user to be inserted into the database
+     * @param bool $inTransaction
+     */
     public function createResource(array $resource, bool $inTransaction = false) {
             if (!$inTransaction) {
                 $this->db->beginTransaction();
@@ -272,6 +276,18 @@ public function getOrderWithItems(int $number): array {
             return $res;
     
     }
+
+
+    /**
+     * Deletes an order
+     * @param int $number The order number that is to be deleted
+     */
+    public function deleteResource(int $number) {
+        $stmt = $this->db->prepare("DELETE FROM `order` WHERE number = :number");
+        $stmt->bindValue(':number', $number);
+        $stmt->execute();
+    }
+
 
 
 

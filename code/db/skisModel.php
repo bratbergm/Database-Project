@@ -75,8 +75,8 @@ class SkiModel {
 
     /**
      * Retreives all skis. (Add skitypes?)
-     * @param 
-     * @return 
+     * @return array Returns an array of associative arrays with the requested data.
+     *               If the data is not found, it returns an empty array.
      */
     public function getCollection() {
         $res = array();
@@ -93,8 +93,9 @@ class SkiModel {
 
     /**
      * Retreives one ski based on product number (pnr)
-     * @param pnr
-     * @return
+     * @param int $pnr The skis production number
+     * @return array Returns an array of associative arrays with the requested data.
+     *               If the data is not found, it returns an empty array.
      */
     public function getRecource($pnr) {
         $res = array();
