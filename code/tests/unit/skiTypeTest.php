@@ -22,7 +22,7 @@ class skiTypeTest extends \Codeception\Test\Unit {
      * Tests if possible to retrieve list of ski types
      */
     public function testGetCollection() {
-        $controller = new APIController();
+        $controller = new PublicEndpoint();
 
         $uri = ['skitypes'];
         $requestMethod = RESTConstants::METHOD_GET;
@@ -37,7 +37,7 @@ class skiTypeTest extends \Codeception\Test\Unit {
      * Tests if possible to retrieve a given skiType
      */
     public function testGetResource() {
-        $controller = new APIController();
+        $controller = new PublicEndpoint();
 
         $res = $controller->handleRequest(['skitypes', 'Endurance'], 'GET', [], []);
         self::assertNotEmpty($res);

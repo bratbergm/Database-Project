@@ -14,14 +14,14 @@ class SkiModel {
     }
 
     /**
-     * Creates a record of skis produced after a given date. (Create records newly produced skis) 
-     * Needs '' around date in the URI
+     * Creates a record of skis produced after a given date. (Create records newly produced skis)   Inner join med skitypes 1!
+     * Needs '' around date in the URI Example: http://127.0.0.1/dbproject/skis/date/'2021-03-02'
      * Storekeeper endpoint
      */
     public function getRecord(string $date) {
         $res = array();
        
-        $query = "SELECT `pnr`,`type`,`model`, `temperature`, `size`, `weightClass`, `gripSystem`,`productionDate`
+        $query = "SELECT `pnr`, `size`, `weightClass`,`productionDate`
         FROM ski
         WHERE productionDate >= $date";
        
@@ -35,10 +35,6 @@ class SkiModel {
             $res[$pos]['size'] = $row['size'];
             $res[$pos]['weightClass'] = $row['weightClass'];
             $res[$pos]['productionDate'] = $row['productionDate'];
-            $res[$pos]['type'] = $row['type'];
-            $res[$pos]['model'] = $row['model'];
-            $res[$pos]['temperature'] = $row['temperature'];
-            $res[$pos]['gripSystem'] = $row['gripSystem'];
        }
     
         return $res;
@@ -84,7 +80,7 @@ class SkiModel {
      */
     public function getCollection() {
         $res = array();
-        $stmt = $this->db->prepare("SELECT `pnr`,`type`,`model`, `temperature`, `size`, `weightClass`, `gripSystem`,`productionDate`
+        $stmt = $this->db->prepare("SELECT `pnr`, `size`, `weightClass`, `productionDate`
         FROM ski");
 
         $stmt->execute();
@@ -102,8 +98,9 @@ class SkiModel {
      */
     public function getRecource($pnr) {
         $res = array();
-        $stmt = $this->db->prepare("SELECT `pnr`,`type`,`model`, `temperature`, `size`, `weightClass`, `gripSystem`,`productionDate`
+        $stmt = $this->db->prepare("SELECT `pnr`, `size`, `weightClass`,`productionDate`, `ski`.`ski_type_id`, `skitype`.`id`, `skitype`.`type`, `skitype`.`model`, `skitype`.`temperature`, `skitype`.`gripSystem`, `skitype`.`typeOfSkiing`, `skitype`.`descripton`, `skitype`.`historical`, `skitype`.`msrp`
         FROM ski
+        INNER JOIN skitype ON skitype.id = ski.ski_type_id
         WHERE `pnr` = :pnr");
 
         $stmt->bindValue('pnr', $pnr);

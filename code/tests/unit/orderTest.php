@@ -31,7 +31,7 @@ class orderTest extends \Codeception\Test\Unit {
      */
     public function testIsNotValidEndpoint() {
         $controller = new APIController();
-        self::assertEquals(true, $controller->isValidEndpoint(['orders', '999'], 'GET', []));
+        self::assertEquals(false, $controller->isValidEndpoint(['ordersFail', '999'], 'GET', []));
     }
 
     /**
@@ -62,22 +62,6 @@ class orderTest extends \Codeception\Test\Unit {
         self::assertCount(2, $res);
     }
 
-    /**
-     * Tests if possible to create new order
-     */
-    public function testPutOrder() {
-        $uri = ['/orders/123'];
-        $requestMethod = RESTConstants::METHOD_POST;
-        $queries = array();
-        $payload = array();
-
-        $controller = new APIController();
-
-        $controller->handleRequest($uri, $requestMethod, $queries, $payload);
-
-        $res = $controller->handleRequest(['orders', '123'], 'GET', [], []);
-        self::assertNotEmpty($res);
-    }
 
    /**
     * Tests if possible to update state of an order. Currently working on this.

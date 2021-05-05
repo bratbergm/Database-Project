@@ -20,6 +20,7 @@ if (strlen($content) > 0) {
     $payload = array();
 }
 
+$token = isset($_COOKIE['auth_token']) ? $_COOKIE['auth_token'] : '';
 
 
 $controller = new APIController();
@@ -42,7 +43,8 @@ if (!$controller->isValidPayload($uri, $requestMethod, $payload)) {
 }
 
 try {
-    $res = $controller->handleRequest($uri, $requestMethod, $queries, $payload);
+   // $controller->authorise($token);
+    $res = $controller->handleRequest($token, $uri, $requestMethod, $queries, $payload);
     if ($requestMethod == RESTConstants::METHOD_GET && count($res) == 0) {
         http_response_code(RESTConstants::HTTP_NOT_FOUND);
     } else {

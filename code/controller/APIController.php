@@ -1,10 +1,17 @@
 <?php
 require_once 'RESTConstants.php';
 require_once 'db/OrdersModel.php';
-require_once 'db/SkisModel.php';
-require_once 'db/SkiTypesModel.php';
+//require_once 'db/SkisModel.php';
+require_once 'db/AuthorisationModel.php';
+require_once 'PublicEndpoint.php';
+require_once 'CustomerEndpoint.php';
+require_once 'CompanyEndpoint.php';
+//require_once 'db/SkiTypesModel.php';
+
 
 class APIController {
+
+
 
 
     public function isValidEndpoint(array $uri): bool {
@@ -34,6 +41,9 @@ class APIController {
         } elseif ($uri[0] == RESTConstants::ENDPOINT_SKITYPES) {
 
             return true;
+        } elseif ($uri[0] == RESTConstants::ENDPOINT_PLAN) {
+
+            return true;
         }
         return false;
     }
@@ -42,12 +52,16 @@ class APIController {
         switch ($uri[0]) {
             case RESTConstants::ENDPOINT_ORDERS:
                 // GET requests for orders may be for all orders (/orders) or a specific order (/orders/{number})
-                return $requestMethod == RESTConstants::METHOD_GET || $requestMethod == RESTConstants::METHOD_PUT || $requestMethod == RESTConstants::METHOD_POST;
+                return $requestMethod == RESTConstants::METHOD_GET || $requestMethod == RESTConstants::METHOD_PUT || $requestMethod == RESTConstants::METHOD_POST || $requestMethod == RESTConstants::METHOD_DELETE;
                 break;
             case RESTConstants::ENDPOINT_SKIS:
                 return $requestMethod == RESTConstants::METHOD_GET;
                 break;
             case RESTConstants::ENDPOINT_SKITYPES:
+                return $requestMethod == RESTConstants::METHOD_GET;
+                break;
+            case RESTConstants::ENDPOINT_PLAN:
+                // Now, only custumer can only GET production plans
                 return $requestMethod == RESTConstants::METHOD_GET;
                 break;
         }
@@ -68,7 +82,53 @@ class APIController {
     }
 
 
+ /*
+    // Validate that the token is one of the stored tokens in the database
+    public function authorise(string $token) {
+        if((new AuthorisationModel())->validateToken($token)) {
+            return false;
+        }
+    }
+*/
 
+    /**
+     * Checks the token and redirects to the respective endpoint
+     */
+    public function handleRequest(string $token, array $uri, string $requestMethod, array $queries, array $payload): array {
+       // Validate that the token is one of the stored tokens in the database
+        if(!(new AuthorisationModel())->validateToken($token)) {
+            return false;
+        } //Else: Error handling: Not allowed (try, catch)
+
+        switch ($token) {
+            case RESTConstants::TOKEN_PUBLIC:
+                $endpoint = new PublicEndpoint();
+                break;
+            case RESTConstants::TOKEN_CUSTOMER:
+                $endpoint = new CustomerEndpoint();
+                break;
+            case RESTConstants::TOKEN_CUSTOMERREP:
+                $endpoint = new CompanyEndpoint();
+                break;
+            case RESTConstants::TOKEN_STOREKEEPER:
+                $endpoint = new CompanyEndpoint();
+                break;
+        }   // token is used further in the CompanyEndpoint
+        return $endpoint->handleRequest($token, $uri, $requestMethod, $queries, $payload);
+    }
+
+
+/*
+public function handleRequest(string $token, array $uri, string $requestMethod, array $queries, array $payload): array {
+    if ($token == 'efa1f375d76194fa51a3556a97e641e61685f914d446979da50a551a4333ffd7') {
+        $endpoint = new PublicEndpoint();
+        return $endpoint->handleRequest($uri, $requestMethod, $queries, $payload);
+    }
+}
+*/
+
+//  Denne blir å finnes i hvert endpoint
+/*
     public function handleRequest(array $uri, string $requestMethod, array $queries, array $payload): array {
         $endpointUri = $uri[0];
         switch ($endpointUri) {
@@ -84,18 +144,26 @@ class APIController {
         }
         return array();
     }
+*/
 
+    
+
+
+    /**
+     * To do:
+     * Flytt til egen order controller, bruk switch på methode? istede
+     */
     protected function handleOrderRequest(array $uri, string $requestMethod, array $queries, array $payload): array {
-        if (count($uri) == 1) {
+        if (count($uri) == 1 && $requestMethod == RESTConstants::METHOD_GET) {
             // Only /orders
             $order = new OrderModel();
             return $order->getOrders();
             // /orders/orderNumber
-        } elseif (count($uri) == 2 && ctype_digit($uri[1])) {
+        } elseif (count($uri) == 2 && ctype_digit($uri[1]) && $requestMethod == RESTConstants::METHOD_GET) {
             $order = new OrderModel();
             return $order->getOrderWithItems(intval($uri[1]));
             // /orders/state
-        } elseif (count($uri) == 2 && ctype_alpha($uri[1])) {
+        } elseif (count($uri) == 2 && ctype_alpha($uri[1]) && $requestMethod == RESTConstants::METHOD_GET) {
             $order = new OrderModel();
             return $order->getOrdersState($uri[1]);
             // Update order state
@@ -104,7 +172,7 @@ class APIController {
             return $order->UpdateOrderState(intval($uri[1]), $uri[2]);
         } elseif ($requestMethod == RESTConstants::METHOD_POST) {
             $order = new OrderModel();
-            return $order->createResource($payload);   // Working on this
+            return $order->createResource($payload);   
         }
     }
 

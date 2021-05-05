@@ -1,4 +1,5 @@
 CREATE TABLE `skiType` (
+    `id`              int(11),
     `type`            varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
     `model`           varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
     `temperature`     varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
@@ -10,13 +11,13 @@ CREATE TABLE `skiType` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
 
 INSERT INTO `skiType`
-    (`type`,`model`,`temperature`,`gripSystem`,`typeOfSkiing`,`descripton`,`historical`,`msrp`)
+    (`id`,`type`,`model`,`temperature`,`gripSystem`,`typeOfSkiing`,`descripton`,`historical`,`msrp`)
     VALUES
-    ('skate','Active','cold','IntelliGrip','free-style',' perfect for youth skiers interested in starting skating','no','999'),
-    ('classic','Endurance','cold','IntelliGrip','double pole','Endurace Classic is the ideal choice for fast fitness workouts and long weekend tours.','no','1200'),
-    ('skate','Intrasonic','warm','IntelliGrip','free-style','The Intrasonic Skate is a high-stability skate ski designed for beginners who are looking for an introduction to skate-style skiing.','no','2100'),
-    ('skate','Redline','warm','wax','free-style','Dynamic and high responsive camber perfect for harder tracks and higher snow speed.','no','7200'),
-    ('classic','Race Pro','cold','wax','classic','Race Pro Classic shares its construction with our race-proven world cup skis from 2017.','no','5300');
+    ('1','skate','Active','cold','IntelliGrip','free-style',' perfect for youth skiers interested in starting skating','no','999'),
+    ('2','classic','Endurance','cold','IntelliGrip','double pole','Endurace Classic is the ideal choice for fast fitness workouts and long weekend tours.','no','1200'),
+    ('3','skate','Intrasonic','warm','IntelliGrip','free-style','The Intrasonic Skate is a high-stability skate ski designed for beginners who are looking for an introduction to skate-style skiing.','no','2100'),
+    ('4','skate','Redline','warm','wax','free-style','Dynamic and high responsive camber perfect for harder tracks and higher snow speed.','no','7200'),
+    ('5','classic','Race Pro','cold','wax','classic','Race Pro Classic shares its construction with our race-proven world cup skis from 2017.','no','5300');
 
 
 CREATE TABLE `ski` (
@@ -24,36 +25,33 @@ CREATE TABLE `ski` (
     `size`            int(11),
     `weightClass`     varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
     `productionDate`  date,
-    `type`            varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
-    `model`           varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
-    `temperature`     varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
-    `gripSystem`      varchar(50) COLLATE utf8mb4_danish_ci NOT NULL
+    `ski_type_id`     int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
 
 
 INSERT INTO `ski`
-    (`pnr`,`type`,`model`, `temperature`, `size`, `weightClass`, `gripSystem`,`productionDate`)
+    (`pnr`,`size`, `weightClass`,`productionDate`,`ski_type_id`)
     VALUES
-    ('1','skate','Active','cold',142,'20-30','IntelliGrip','2020-10-01'),
-    ('2','skate','Active','cold',147,'30-40','IntelliGrip','2021-01-01'),
-    ('3','skate','Active','cold',152,'40-50','IntelliGrip','2021-02-10'),
-    ('4','skate','Active','cold',157,'50-60','IntelliGrip','2021-02-10'),
-    ('5','classic','Endurance','cold',147,'30-40','IntelliGrip','2020-03-16'),
-    ('6','classic','Endurance','cold',152,'40-50','IntelliGrip','2020-09-10'),
-    ('7','classic','Endurance','cold',157,'50-60','IntelliGrip','2021-01-05'),
-    ('8','classic','Endurance','cold',162,'60-70','IntelliGrip','2021-03-20'),
-    ('9','skate','Intrasonic','warm',152,'40-50','IntelliGrip','2021-01-10'),
-    ('10','skate','Intrasonic','warm',157,'50-60','IntelliGrip','2021-02-21'),
-    ('11','skate','Intrasonic','warm',162,'60-70','IntelliGrip','2021-02-10'),
-    ('12','skate','Intrasonic','warm',167,'70-80','IntelliGrip','2021-03-10'),
-    ('13','skate','Redline','warm',152,'50-60','wax','2021-01-10'),
-    ('14','skate','Redline','warm',157,'50-60','wax','2021-02-10'),
-    ('15','skate','Redline','warm',162,'50-60','wax','2021-02-10'),
-    ('16','skate','Redline','warm',167,'50-60','wax','2021-02-12'),
-    ('17','classic','Race Pro','cold',172,'60-70','wax','2021-02-05'),
-    ('18','classic','Race Pro','cold',177,'70-80','wax','2021-02-05'),
-    ('19','classic','Race Pro','cold',182,'80-90','wax','2021-02-05'),
-    ('20','classic','Race Pro','cold',187,'90-100','wax','2021-02-05');
+    ('1',142,'20-30','2020-10-01',1),
+    ('2',147,'30-40','2021-01-01',1),
+    ('3',152,'40-50','2021-02-10',1),
+    ('4',157,'50-60','2021-02-10',1),
+    ('5',147,'30-40','2020-03-16',2),
+    ('6',152,'40-50','2020-09-10',2),
+    ('7',157,'50-60','2021-01-05',2),
+    ('8',162,'60-70','2021-03-20',2),
+    ('9',152,'40-50','2021-01-10',3),
+    ('10',157,'50-60','2021-02-21',3),
+    ('11',162,'60-70','2021-02-10',3),
+    ('12',167,'70-80','2021-03-10',3),
+    ('13',152,'50-60','2021-01-10',4),
+    ('14',157,'50-60','2021-02-10',4),
+    ('15',162,'50-60','2021-02-10',4),
+    ('16',167,'50-60','2021-02-12',4),
+    ('17',172,'60-70','2021-02-05',5),
+    ('18',177,'70-80','2021-02-05',5),
+    ('19',182,'80-90','2021-02-05',5),
+    ('20',187,'90-100','2021-02-05',5);
 
 
 
@@ -97,18 +95,68 @@ INSERT INTO `orderItems`
 
 
 CREATE TABLE `customer` (
-    `id`       INT NOT NULL,
-    `name`              VARCHAR(50),
+    `id`                INT(11) NOT NULL,
     `contract_start`    date,
-    `contract_end`      date,
-    `address`           VARCHAR(50),
-    `price`             INT) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
+    `contract_end`      date
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
 
 INSERT INTO `customer`
-    (`id`,`name`,`contract_start`,`contract_end`,`address`,`price`)
+    (`id`,`contract_start`,`contract_end`)
     VALUES
-    ('1','XXL','2010-01-01','2030-01-01','Trondheimsveien 1','100000'),
-    ('2','Sport 1','2016-01-01','2025-01-01','Gata nr 43','100000');
+    ('1','2010-01-01','2030-01-01'),
+    ('2','2016-01-01','2025-01-01'),
+    ('3','2010-01-01','2025-01-01'),
+    ('4','2015-01-01','2025-01-01'),
+    ('5','2020-01-01','2025-01-01'),
+    ('6','2018-01-01','2023-01-01'),
+    ('7','2021-01-01','2026-01-01'),
+    ('8','2019-01-01','2024-01-01');
+
+
+CREATE TABLE `franchise` (
+    `customer_id`       INT(11) NOT NULL,
+    `name`              VARCHAR(50),
+    `address`           VARCHAR(50),
+    `price`             VARCHAR(50)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
+
+INSERT INTO `franchise`
+    (`customer_id`,`name`,`address`,`price`)
+    VALUES
+    ('1','XXL','Trondheimsveien 1','50% of msrp'), 
+    ('2','Sport 1','Gata nr 43','60% of msrp');
+
+
+CREATE TABLE `store` (
+    `customer_id`       INT(11) NOT NULL,
+    `name`              VARCHAR(50),
+    `address`           VARCHAR(50),
+    `price`             VARCHAR(50)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
+
+INSERT INTO `store`
+    (`customer_id`,`name`,`address`,`price`)
+    VALUES
+    ('3','Sportsbutikken','Parkveien 42','70% of msrp'),
+    ('4','Ski Spesialisten','Gatevegen 35','65% of msrp');
+
+
+CREATE TABLE `athlete` (
+    `customer_id`       INT(11) NOT NULL,
+    `firstName`         VARCHAR(50),
+    `lastName`          VARCHAR(50),
+    `dob`               date,
+    `club`              VARCHAR(50),
+    `annual_quant`      INT(11)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
+
+INSERT INTO `athlete`
+    (`customer_id`,`firstName`,`lastName`,`dob`,`club`,`annual_quant`)
+    VALUES
+    ('5','Jhon','Jhonsen','1990-05-05','Trondheim Skiklubb',10),
+    ('6','Adam','Adamson','1995-01-01','Oslo Skiklubb',14),
+    ('7','Brian','Brianson','1994-01-01','Tromsø Skiklubb',8),
+    ('8','Fiona','Olsen','1996-01-01','Bergen Skiklubb', 20);
 
 
 CREATE TABLE `productionPlan` (
@@ -124,58 +172,94 @@ INSERT INTO `productionPlan`
     ('2021-04');
 
 CREATE TABLE `productionPlanSkis` (
-    `period`        varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
-    `type`          varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
-    `model`         varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
-    `temperature`   varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
-    `gripSystem`    varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
-    `quantity`      INT
+    `plan_period`        varchar(50) COLLATE utf8mb4_danish_ci NOT NULL,
+    `ski_pnr`       INT(11),
+    `quantity`      INT(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
 
 INSERT INTO `productionPlanSkis`
-    (`period`,`type`,`model`,`temperature`,`gripSystem`,`quantity`)
+    (`plan_period`,`ski_pnr`,`quantity`)
     VALUES
-    ('2021-01','skate','Active','cold','IntelliGrip',700),
-    ('2021-01','classic','Endurance','cold','IntelliGrip',500),
-    ('2021-02','skate','Active','cold','IntelliGrip',900),
-    ('2021-03','skate','Intrasonic','warm','IntelliGrip',400),
-    ('2021-03','classic','Endurance','cold','IntelliGrip',600),
-    ('2021-04','skate','Redline','warm','wax',900),
-    ('2021-04','classic','Race Pro','cold','wax',700);
+    ('2021-01',1,700),
+    ('2021-01',2,500),
+    ('2021-02',3,900),
+    ('2021-03',4,400),
+    ('2021-03',5,600),
+    ('2021-04',6,900),
+    ('2021-04',7,700);
 
 
+CREATE TABLE `auth_token` (
+    `token`     char(64) COLLATE utf8mb4_danish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_danish_ci;
+
+INSERT INTO `auth_token` 
+    (`token`) 
+    VALUES
+    ('efa1f375d76194fa51a3556a97e641e61685f914d446979da50a551a4333ffd7'),
+    ('d5367aea1c17343b6c380f774b81a8d7d5e33c43dc445fdc8a6f884723694f3d'),
+    ('fbecd91f02f99f3d896f387283921118375de5624d0a4b5eb614d248479dfef4'),
+    ('b6c45863875e34487ca3c155ed145efe12a74581e27befec5aa661b8ee8ca6dd');
+
+/*
+CREATE USER 'public'@'user' IDENTIFIED BY PASSWORD '*A80082C9E4BB16D9C8E41B0D7EED46126DF4A46E';
+GRANT SELECT ON `skitype` TO 'public'@'user';
+*/
 
 ALTER TABLE `ski` 
     ADD PRIMARY KEY(`pnr`),
-    ADD KEY `ski_skitype_fk` (`type`,`model`,`temperature`,`gripSystem`);
+    ADD KEY `ski_skitype_fk` (`ski_type_id`);
 
 ALTER TABLE `skiType` 
-    ADD PRIMARY KEY(`type`,`model`,`temperature`,`gripSystem`);
+    ADD PRIMARY KEY(`id`);
 
 ALTER TABLE `productionPlan`
     ADD PRIMARY KEY(`period`);
 
 ALTER TABLE `productionPlanSkis`
-    ADD PRIMARY KEY(`period`,`type`,`model`,`temperature`,`gripSystem`),
-    ADD KEY `productionPlanSkis_productionPlan_fk` (`period`),
-    ADD KEY `productionPlanSkis_skiTypes_fk` (`type`,`model`,`temperature`,`gripSystem`);
+    ADD PRIMARY KEY(`plan_period`,`ski_pnr`),
+    ADD KEY `productionPlanSkis_productionPlan_fk` (`plan_period`),
+    ADD KEY `productionPlanSkis_ski_fk` (`ski_pnr`);
 
 ALTER TABLE `customer`
     ADD PRIMARY KEY(`id`);
- 
+
+ALTER TABLE `franchise`
+    ADD PRIMARY KEY(`customer_id`),
+    ADD KEY `franchise_customer_fk` (`customer_id`);
+
+ALTER TABLE `store`
+    ADD PRIMARY KEY(`customer_id`),
+    ADD KEY `store_customer_fk` (`customer_id`);
+
+ALTER TABLE `athlete`
+    ADD PRIMARY KEY(`customer_id`),
+    ADD KEY `athlete_customer_fk` (`customer_id`);
+
 ALTER TABLE `orderItems`
     ADD PRIMARY KEY(`order_number`, `ski_pnr`),
     ADD KEY `orderItems_order_fk` (`order_number`), 
     ADD KEY `orderItems_ski_fk` (`ski_pnr`);
 
-
 ALTER TABLE `order`
     ADD PRIMARY KEY(`number`),
     ADD KEY `order_customer_fk` (`customerId`);
 
+ALTER TABLE `order`
+    MODIFY `number` int(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `ski`
-    ADD CONSTRAINT `ski_skitype_fk` FOREIGN KEY(`type`,`model`,`temperature`,`gripSystem`) REFERENCES `skiType`(`type`,`model`,`temperature`,`gripSystem`) ON DELETE CASCADE ON UPDATE CASCADE;
+    ADD CONSTRAINT `ski_skitype_fk` FOREIGN KEY(`ski_type_id`) REFERENCES `skiType`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
  
+ALTER TABLE `franchise`
+    ADD CONSTRAINT `franchise_customer_fk` FOREIGN KEY(`customer_id`) REFERENCES `customer`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `store`
+    ADD CONSTRAINT `store_customer_fk` FOREIGN KEY(`customer_id`) REFERENCES `customer`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `athlete`
+    ADD CONSTRAINT `athlete_customer_fk` FOREIGN KEY(`customer_id`) REFERENCES `customer`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 ALTER TABLE `orderItems`
     ADD CONSTRAINT `orderItems_order_fk` FOREIGN KEY(`order_number`) REFERENCES `order`(`number`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -186,10 +270,10 @@ ALTER TABLE `order`
     ADD CONSTRAINT `order_customer_fk` FOREIGN KEY(`customerId`) REFERENCES `customer`(`id` ) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `productionPlanSkis`
-    ADD CONSTRAINT `productionPlanSkis_productionPlan_fk` FOREIGN KEY(`period`) REFERENCES `productionPlan`(`period`) ON DELETE CASCADE ON UPDATE CASCADE;
+    ADD CONSTRAINT `productionPlanSkis_productionPlan_fk` FOREIGN KEY(`plan_period`) REFERENCES `productionPlan`(`period`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `productionPlanSkis`
-    ADD CONSTRAINT `productionPlanSkis_skiTypes_fk` FOREIGN KEY(`type`,`model`,`temperature`,`gripSystem`) REFERENCES `skiType`(`type`,`model`,`temperature`,`gripSystem`) ON DELETE CASCADE ON UPDATE CASCADE;
+    ADD CONSTRAINT `productionPlanSkis_ski_fk` FOREIGN KEY(`ski_pnr`) REFERENCES `ski`(`pnr`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 
