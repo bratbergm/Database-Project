@@ -165,32 +165,7 @@ public function getOrderWithItems(int $number): array {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $res[] = $row;
         }
-        // Skitypes and skis BRUK skisModel->getRecource ?
-
-
-
-/*
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $pos = count($res);
-            $res[] = array();
-    
-            $res[$pos]['ski.pnr'] = $row['ski.pnr'];
-            $res[$pos]['ski.size'] = $row['ski.size'];
-            $res[$pos]['ski.weightClass'] = $row['ski.weightClass'];
-            $res[$pos]['ski.productionDate'] = $row['ski.productionDate'];
-            $res[$pos]['ski.ski_type_id'] = $row['ski.ski_type_id'];
-            $res[$pos]['skiType.id'] = $row['skiType.id'];
-            $res[$pos]['skiType.type'] = $row['skiType.type'];
-            $res[$pos]['skiType.model'] = $row['skiType.model'];
-            $res[$pos]['skiType.temperature'] = $row['skiType.temperature'];
-            $res[$pos]['skiType.gripSystem'] = $row['skiType.gripSystem'];
-            $res[$pos]['skiType.typeOfSkiing'] = $row['skiType.typeOfSkiing'];
-            $res[$pos]['skiType.descripton'] = $row['skiType.descripton'];
-            $res[$pos]['skiType.historical'] = $row['skiType.historical'];
-            $res[$pos]['skiType.msrp'] = $row['skiType.msrp'];
-
-        }
-  */      
+  
         return $res;
     }
 
@@ -281,11 +256,15 @@ public function getOrderWithItems(int $number): array {
     /**
      * Deletes an order
      * @param int $number The order number that is to be deleted
+     * @return array An ampty array (since the order is deleted)
+     * TO DO: Check if order number exists in the database. 
      */
     public function deleteResource(int $number) {
         $stmt = $this->db->prepare("DELETE FROM `order` WHERE number = :number");
         $stmt->bindValue(':number', $number);
         $stmt->execute();
+        
+        return array();
     }
 
 

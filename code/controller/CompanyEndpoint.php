@@ -124,20 +124,7 @@ class CompanyEndpoint {
     }
 
 
-
 }
-
-
-
-/**
- * Storekeeper:
- *    Create records newly produced skis
- * 
- * Customer rep:
- *    Retrieve orders with status filter set to new
- *    Change the order state from new to open for an unassigned order
- */
-
 
 
 

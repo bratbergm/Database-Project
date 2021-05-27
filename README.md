@@ -2,50 +2,6 @@
 
 
 
-### **Info for peer review**
-
-*What is implemented:*
-
-| Endpoint | URI (http://server/API)  | Methods | Description                                          |
-| -------- | ------------------------ | ------- | ---------------------------------------------------- |
-| Orders   | /orders                  | GET     | Get basic information about all  orders              |
-| Orders   | /orders/{number}         | GET     | Get info about one specific order                    |
-| Orders   | /orders/{state}          | GET     | Get info about orders based on  state                |
-| Orders   | /orders/{number}/{state} | PUT     | Change a specific orders state                       |
-| Skis     | /skis/date/’*date*’      | GET     | Get skis that are produced on or  after a given date |
-| Skitypes | /skitypes                | GET     | GET all skitypes                                     |
-| Skitypes | /skitypes/{model}        | GET     | GET skitype with model filter                        |
-| …        |                          |         |                                                      |
-
-*What is not working*
-
-- Unit test that updates a value, i.e. sets an orders state to open. (works with Postman but how to write test for it?)
-- Currently working on adding new order. Not yet working.
-
-*What I plan to implement / improve*
-
-- Separate some of the code in APIController.php into files for each endpiont and a resourceController.php
-- Improve endpoint validation and payload validation
-- A way to separate the different users with tokens
-- The different the types of customers. Now it is only 'Customer'.
-- Get total price for orders, based on price of the skis. Move msrp to ski relation?
-- Error handling
-- (The other requirements in the project case)
-
-
-
-*misc.*
-
-- Production plans are for the months of the year (from 2021-01 to 2021-04 in the test DB)
-
-- Remember ' ' around the date when using Postman. Example:
-
-  ```
-  http://127.0.0.1/dbproject/skis/date/'2021-03-01'
-  ```
-
-  
-
 
 
 ##### Setup
@@ -80,12 +36,31 @@
 
 
 
-#### Who am I
+**Token**
 
-Morten Bratberg BDIGSEC19 - Gjøvik
+The different users of the system are authenticated by tokens. The correct token needs to be in the request for it to be successful.
 
-morterb@stud.ntnu.no
+Public users: `efa1f375d76194fa51a3556a97e641e61685f914d446979da50a551a4333ffd7`
 
-Discord: korg#8519
+Storekeeper: `d5367aea1c17343b6c380f774b81a8d7d5e33c43dc445fdc8a6f884723694f3d`
 
-I am available for questions if needed :)
+Customer rep: `fbecd91f02f99f3d896f387283921118375de5624d0a4b5eb614d248479dfef4`
+
+Customer: `b6c45863875e34487ca3c155ed145efe12a74581e27befec5aa661b8ee8ca6dd`
+
+
+
+
+
+**Miscellaneous**
+
+- Production plans are for the months of the year (from 2021-01 to 2021-04 in the test DB)
+
+- Use ' ' around the date to get skis produced after a give date when using Postman. Example:
+
+  ```
+  http://127.0.0.1/dbproject/skis/date/'2021-03-01'
+  ```
+
+- The only user that is implemented is root, as stated in dbCredentials.php
+

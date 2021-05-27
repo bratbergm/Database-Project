@@ -38,40 +38,8 @@ class SkiModel {
        }
     
         return $res;
-       
-       
-       
-       /*
-       $query = "SELECT `pnr`,`type`,`model`, `temperature`, `size`, `weightClass`, `gripSystem`,`productionDate`
-        FROM ski
-        WHERE productionDate = :productionDate";
-
-        $stmt = $this->db->prepare($query);
-        $stmt->bindValue(':productionDate', $date);
-        $stmt->execute();
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $pos = count($res);
-            $res[] = $row;
-
-        /*
-
-            /*
-            $pos = count($res);
-            $res[] = array();
-
-
-            $res[$pos]['pnr'] = $row['pnr'];
-            $res[$pos]['size'] = $row['size'];
-            $res[$pos]['weightClass'] = $row['weightClass'];
-            $res[$pos]['productionDate'] = $row['productionDate'];
-            $res[$pos]['type'] = $row['type'];
-            $res[$pos]['model'] = $row['model'];
-            $res[$pos]['temperature'] = $row['temperature'];
-            $res[$pos]['gripSystem'] = $row['gripSystem'];
-*/           
-
     }
+
 
     /**
      * Retreives all skis. (Add skitypes?)
@@ -112,12 +80,6 @@ class SkiModel {
         }
         return $res;
     }
-
-
-
-
-
-
 
 
 }

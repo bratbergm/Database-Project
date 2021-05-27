@@ -49,6 +49,7 @@ class CustomerEndpoint {
      * @see OrderModel::getOrders Returns basic information on all orders
      * @see OrderModel::getOrderWithItems Returns an order based on order number with all information on items in the order
      * @see OrderModel::createResource Adding a new order
+     * @see OrderModel::deleteResource Deletes an order
      */
     public function handleOrderRequest(array $uri, string $requestMethod, array $queries, array $payload): array {
         switch ($requestMethod) {
@@ -96,15 +97,6 @@ class CustomerEndpoint {
     public function handleSkiTypeRequest (array $uri, string $requestMethod, array $queries, array $payload): array {
 
     }
-
-/*
-Customer:
-
-Retrieve a four week production plan summary
-Delete a given order
-*/
-
-
 
 
 }

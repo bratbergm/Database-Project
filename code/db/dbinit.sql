@@ -201,10 +201,11 @@ INSERT INTO `auth_token`
     ('fbecd91f02f99f3d896f387283921118375de5624d0a4b5eb614d248479dfef4'),
     ('b6c45863875e34487ca3c155ed145efe12a74581e27befec5aa661b8ee8ca6dd');
 
-/*
-CREATE USER 'public'@'user' IDENTIFIED BY PASSWORD '*A80082C9E4BB16D9C8E41B0D7EED46126DF4A46E';
-GRANT SELECT ON `skitype` TO 'public'@'user';
-*/
+/**
+CREATE USER 'public'@'localhost' IDENTIFIED BY PASSWORD 'public';
+GRANT SELECT ON `dbproject`.`skitype` TO 'public'@'localhost';
+**/
+
 
 ALTER TABLE `ski` 
     ADD PRIMARY KEY(`pnr`),
@@ -276,19 +277,3 @@ ALTER TABLE `productionPlanSkis`
     ADD CONSTRAINT `productionPlanSkis_ski_fk` FOREIGN KEY(`ski_pnr`) REFERENCES `ski`(`pnr`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
-
-
-
-/*
-ALTER TABLE `orderItem` 
-    ADD PRIMARY KEY(`itemNr`),
-    ADD KEY `orderItem_order_fk` (`order_number`),
-    ADD KEY `orderItem_ski_fk` (`ski_pnr`);
-
-ALTER TABLE `orderItem`
-    ADD CONSTRAINT `orderItem_order_fk` FOREIGN KEY(`order_number`) REFERENCES `order`(`number`) ON UPDATE CASCADE;
-ALTER TABLE `orderItem`
-    ADD CONSTRAINT `orderItem_ski_fk` FOREIGN KEY(`ski_pnr`) REFERENCES `ski`(`pnr`) ON UPDATE CASCADE;
-
-
-*/
