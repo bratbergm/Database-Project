@@ -4,6 +4,8 @@
 
 **Kandidat nummer: 10007**
 
+**This is a single student project**
+
 ##### Setup
 
 1. Clone the repo
