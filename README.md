@@ -1,9 +1,6 @@
 # dbproject
 
 
-
-**Kandidat nummer: 10007**
-
 **This is a single student project**
 
 ### Setup
